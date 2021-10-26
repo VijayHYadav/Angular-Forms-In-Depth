@@ -2,23 +2,17 @@
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
 
-    <!--
-      ngModel:
-      Now we need to tell to the Ng-form Directives, what are the form controls inside the form elements.
-      We can do so by marking each of the controls that we want to link to the form with the angular Ngmodel Directives.
-
-    -->
     <form class="login-form data-form" #loginForm="ngForm">
 
       <mat-form-field>
 
-        <input matInput type="email" name="email" placeholder="Email" ngModel #email="ngModel">
+        <input matInput type="email" name="email" placeholder="Email" ngModel #email="ngModel" required>
 
       </mat-form-field>
 
       <mat-form-field>
 
-        <input matInput type="password" placeholder="Password" name="password" ngModel #password="ngModel">
+        <input matInput type="password" placeholder="Password" name="password" ngModel #password="ngModel" required>
 
       </mat-form-field>
 
@@ -29,8 +23,7 @@
     </form>
 
     <div class="form-val">
-      {{ email.value + ' ' + password.value }}
-      {{ loginForm.value | json}}
+      {{ email.valid }}
     </div>
 
   </mat-card-content>
