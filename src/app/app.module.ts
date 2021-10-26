@@ -86,8 +86,8 @@ import {LoginReactiveComponent} from './login-reactive/login-reactive.component'
         MatCheckboxModule,
         MatStepperModule,
         MatProgressBarModule,
-        FormsModule,
-        ReactiveFormsModule
+        FormsModule, // Template Forms
+        ReactiveFormsModule // Reactive Forms
     ],
     providers: [
         CoursesService,
