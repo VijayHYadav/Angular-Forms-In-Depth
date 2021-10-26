@@ -1,4 +1,3 @@
 
 ## Angular Forms In Depth
-
-Now we need to tell to the Ng-form Directives, what are the form controls inside the form elements.We can do so by marking each of the controls that we want to link to the form with the angular Ngmodel Directives.
+So to summarize, each form control has three separate states.We have the third state, we have the Dirty State and we have the validity state. So two different flags for each of the states and the corresponding CSS classes that will allow us to style the different states of a form control.
