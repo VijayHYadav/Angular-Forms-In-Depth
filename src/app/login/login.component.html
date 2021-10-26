@@ -20,7 +20,7 @@
           maxlength="23"
           email
           >
-          <!-- pattern="[a-z]+" -->
+          <!-- [ngModelOptions]="{updateOn: 'blur' | 'change' | 'submit'}" -->
 
         <mat-error *ngIf="email.errors?.required">Email is mandatory.</mat-error>
         <mat-error *ngIf="email.errors?.email">This is not a valid error.</mat-error>
