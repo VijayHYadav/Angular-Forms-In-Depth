@@ -2,26 +2,23 @@
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
 
-    <!-- 
-      ANGULAR has already implicitly applied a directive to this form element, even though we haven't added anything here on our 
-      template.That directive that these implicitly apply to every form element on our application is known as the NGForm Directive.
-      One of the features of this NGform directive is that it produces one export which points unto itself. So let's go ahead and let's
-      grab this export by defining here a template variable. #loginForm="ngForm" 
-    -->
+    <!--
+      ngModel:
+      Now we need to tell to the Ng-form Directives, what are the form controls inside the form elements.
+      We can do so by marking each of the controls that we want to link to the form with the angular Ngmodel Directives.
 
-    <!-- #loginForm is know as template variable-->
+    -->
     <form class="login-form data-form" #loginForm="ngForm">
 
       <mat-form-field>
 
-        <input matInput type="email" name="email"
-               placeholder="Email">
+        <input matInput type="email" name="email" placeholder="Email" ngModel #email="ngModel">
 
       </mat-form-field>
 
       <mat-form-field>
 
-        <input matInput type="password" placeholder="Password">
+        <input matInput type="password" placeholder="Password" name="password" ngModel #password="ngModel">
 
       </mat-form-field>
 
@@ -30,6 +27,11 @@
       </button>
 
     </form>
+
+    <div class="form-val">
+      {{ email.value + ' ' + password.value }}
+      {{ loginForm.value | json}}
+    </div>
 
   </mat-card-content>
 </mat-card>
