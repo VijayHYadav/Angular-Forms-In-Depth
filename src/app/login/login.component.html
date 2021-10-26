@@ -12,6 +12,8 @@
           name="email" 
           placeholder="Email" 
           ngModel 
+          (ngModelChange)="onEmailChange($event)"
+          [ngModelOptions]="{updateOn: 'blur'}"
           #email="ngModel" 
           required
           minlength="3"
@@ -42,7 +44,7 @@
     </form>
 
     <div class="form-val">
-      {{ email.errors | json }}
+      {{ email.value | json }}
     </div>
 
   </mat-card-content>
