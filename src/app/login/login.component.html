@@ -22,10 +22,16 @@
 
       <mat-form-field>
 
-        <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="val.password"
-          #password="ngModel" required passwordStrength>
-
-      </mat-form-field>
+        <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="val.password" #password="ngModel"
+          required passwordStrength>
+        
+        <mat-error *ngIf="password.errors?.required">Password is mandatory.</mat-error>
+        
+        <mat-error *ngIf="password.errors?.passwordStrength">
+          Your password must have lowerCase, upperCase and Numeric characters.
+        </mat-error>
+        
+        </mat-form-field>
 
       <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
         Login
