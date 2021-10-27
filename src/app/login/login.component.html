@@ -6,7 +6,7 @@
 
       <mat-form-field>
 
-        <input matInput type="email" placeholder="Email" [(ngModel)]="val.email" (ngModelChange)="onEmailChange($event)"
+        <input matInput type="email" placeholder="Email" ngModel (ngModelChange)="onEmailChange($event)"
           [ngModelOptions]="{name: 'Email'}" #email="ngModel" required minlength="3" maxlength="23" email>
 
         <mat-error *ngIf="email.errors?.required">Email is mandatory.</mat-error>
@@ -20,28 +20,26 @@
 
       <mat-form-field>
 
-        <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="val.password" #password="ngModel"
+        <input matInput type="password" placeholder="Password" name="password" ngModel #password="ngModel"
           required passwordStrength minlength="8">
         
           <mat-error *ngIf="password.errors?.required">Password is mandatory.</mat-error>
-
-          <ng-container 
-            *ngIf="password.errors | onlyOneError:['minlength', 'passwordStrength'] as error">
-            
-            <mat-error *ngIf="error.passwordStrength">
-              Your password must have lowerCase, upperCase and Numeric characters.
-            </mat-error>
-
-            <mat-error *ngIf="error.minlength">
-              Your password must have minimum {{error.minlength.requiredLength}} chars,
-              but it only has {{error.minlength.actualLength}}.
-            </mat-error>
-
-          </ng-container>
-
-
         
         </mat-form-field>
+
+        <ng-container 
+            *ngIf="password.errors | onlyOneError:['minlength', 'passwordStrength'] as error">
+            
+            <div class="field-message" *ngIf="error.passwordStrength">
+              Your password must have lowerCase, upperCase and Numeric characters.
+            </div>
+
+            <div class="field-message" *ngIf="error.minlength">
+              Your password must have minimum {{error.minlength.requiredLength}} chars,
+              but it only has {{error.minlength.actualLength}}.
+            </div>
+
+          </ng-container>
 
       <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
         Login
