@@ -21,7 +21,8 @@ export class CreateCourseStep1Component implements OnInit {
       ],
       asyncValidators: [courseTitleValidator(this.course)],
       updateOn: 'blur'
-    }]
+    }],
+    releaseAt: [new Date(), Validators.required]
   })
 
   constructor(private fb: FormBuilder, private course: CoursesService) {
