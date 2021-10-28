@@ -13,6 +13,7 @@ export class CreateCourseStep2Component implements OnInit {
   form = this.fb.group({
     courseType: ['premium', Validators.required],
     price: [null,[ Validators.required, Validators.min(1), Validators.max(99), Validators.pattern("[0-9]+")]],
+    thumbnail: [null],
     promoStartAt: [null],
     promoEndAt: [null]
   }, {
