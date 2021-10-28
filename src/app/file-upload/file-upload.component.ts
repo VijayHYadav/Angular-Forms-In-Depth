@@ -23,8 +23,19 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   uploadProgress:number;
 
+  onChange = (fileName:string) => {};
+
+  onTouched = () => {};
+  
+  disabled: boolean = false;
+
   constructor(private http: HttpClient) {
 
+  }
+
+  onClick(fileUpload: HTMLElement) {
+    this.onTouched();
+    fileUpload.click();
   }
 
   onFileSelected(event) {
@@ -59,7 +70,7 @@ export class FileUploadComponent implements ControlValueAccessor {
           }
           else if (event.type == HttpEventType.Response) {
             this.fileUploadSuccess = true;
-            // this.onChange(this.fileName);
+            this.onChange(this.fileName);
             // this.onValidatorChange();
           }
         });
@@ -67,4 +78,24 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   }
 
+  /**
+   *  writeValue is going to get called directly by the forms API itself in order to set a given value in the given form control.
+   */
+
+
+  writeValue(value: any) {
+    this.fileName = value;
+  }
+
+  registerOnChange(onChange: any) {
+    this.onChange = onChange;
+  }
+
+  registerOnTouched(onTouched: any) {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(disabled: boolean) {
+    this.disabled = disabled;
+  }
 }
