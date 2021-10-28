@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {HttpClient, HttpEventType} from '@angular/common/http';
 import {catchError, finalize} from 'rxjs/operators';
-import {AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator} from '@angular/forms';
+import {AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators} from '@angular/forms';
 import {noop, of} from 'rxjs';
 
 
@@ -14,10 +14,15 @@ import {noop, of} from 'rxjs';
       provide: NG_VALUE_ACCESSOR,
       multi: true,
       useExisting: FileUploadComponent
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: FileUploadComponent
     }
   ]
 })
-export class FileUploadComponent implements ControlValueAccessor {
+export class FileUploadComponent implements ControlValueAccessor, Validators {
 
   @Input()
   requiredFileType: string;
@@ -34,6 +39,8 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   onTouched = () => {};
   
+  onValidatorChange = () => {};
+
   disabled: boolean = false;
 
   constructor(private http: HttpClient) {
@@ -78,7 +85,7 @@ export class FileUploadComponent implements ControlValueAccessor {
           else if (event.type == HttpEventType.Response) {
             this.fileUploadSuccess = true;
             this.onChange(this.fileName);
-            // this.onValidatorChange();
+            this.onValidatorChange();
           }
         });
     }
@@ -104,5 +111,25 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
+  }
+
+  registerOnValidatorChange(onValidatorChange: () => void) {
+    this.onValidatorChange = onValidatorChange;
+}
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    if(this.fileUploadSuccess) {
+      return null;
+    }
+
+    let errors: any = {
+      requiredFileType: this.requiredFileType
+    }
+
+    if(this.fileUploadError) {
+      errors.uploadFailed = true;
+    }
+
+    return errors;
   }
 }
