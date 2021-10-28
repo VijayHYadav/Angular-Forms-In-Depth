@@ -17,6 +17,16 @@ export class FileUploadComponent {
 
   fileName = '';
 
+  fileUploadError = false;
+
+  fileUploadSuccess = false;
+
+  uploadProgress:number;
+
+  constructor(private http: HttpClient) {
+
+  }
+
   onFileSelected(event) {
 
     const file: File = event.target.files[0];
@@ -25,8 +35,34 @@ export class FileUploadComponent {
 
       this.fileName = file.name;
 
-      console.log(this.fileName);
+      const formData = new FormData();
 
+      formData.append("thumbnail", file);
+
+      this.http.post("/api/thumbnail-upload", formData, {
+        //COMMIT 42. Implementing a File Upload Progress Indicator
+        reportProgress: true,
+        observe: 'events'
+      })
+        .pipe(
+          catchError(error => {
+            this.fileUploadError = true;
+            return of(error);
+          }),
+          finalize(() => {
+            this.uploadProgress = null;
+          })
+        )
+        .subscribe(event => {
+          if (event.type == HttpEventType.UploadProgress) {
+            this.uploadProgress = Math.round(100 * (event.loaded / event.total));
+          }
+          else if (event.type == HttpEventType.Response) {
+            this.fileUploadSuccess = true;
+            // this.onChange(this.fileName);
+            // this.onValidatorChange();
+          }
+        });
     }
 
   }
